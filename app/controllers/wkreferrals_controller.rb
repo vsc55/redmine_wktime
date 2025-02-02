@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WkreferralsController < WkleadController
-	unloadable
+
   before_action :require_login, :check_module_permission
   before_action :check_perm_and_redirect, only: [:update, :destroy]
   before_action :check_permission, only: :getEmpDetails
@@ -51,7 +51,7 @@ class WkreferralsController < WkleadController
       format.csv do
         data = []
         activityHeaders = getReferralHeaders(entries) || []
-        headers = {name: l(:field_name), status: l(:field_status), location: l(:label_location), workphone: l(:label_work_phone), email: l(:field_mail),
+        headers = {name: l(:field_name), status: l(:field_status), location: l(:field_location), workphone: l(:label_work_phone), email: l(:field_mail),
           degree: l(:label_degree), passout: l(:label_pass_out), referredby: l(:label_referred_by)
         }
         activityHeaders.map do |col|

@@ -11,6 +11,39 @@ var userList = new Array();
 var rSubEmailUrl = "";
 var rAppEmailUrl = "";
 
+//For Colorcode in Sidebar-white theme
+var colorcode_statuses = {
+  Empty: 1,
+  New: 0,
+  Rejected: 2,
+  Submitted: 4,
+  Approved: 3,
+  Cancelled: 1,
+  Assigned: 4,
+  In_Process: 5,
+  Converted: 3,
+  Recycled: 1,
+  Dead: 2,
+  Planned: 0,
+  Not_Held: 2,
+  Held: 3,
+  Open: 6,
+  Closed: 1,
+  Contra: 0,
+  Payment: 1,
+  Receipt: 2,
+  Journal: 3,
+  Sales: 4,
+  Credit_Note: 5,
+  Purchase: 6,
+  Debit_Note: 7,
+  Fulfilled: 4,
+  Delivered: 3,
+  Archived: 2,
+  In_Transit: 5,
+  Loading: 4
+};
+
 $(document).ready(function() {
 	$( "#reminder-email-dlg" ).dialog({
 		autoOpen: false,
@@ -156,7 +189,7 @@ $(document).ready(function() {
 	});
 
 	// for searchable dopdown
-	if($("#referred_by").length > 0) $("#referred_by").select2();
+	if($("select#referred_by").length > 0) $("#referred_by").select2();
 
 	$("#assembleItem" ).dialog({
 		modal: true,
@@ -190,7 +223,7 @@ $(document).ready(function() {
 					tr += '<td class="lbl-txt-align">'+$('#product_item :selected').text()+'</td>';
 					tr += '<td class="lbl-txt-align">'+quantity+'</td>';
 					tr += '<td class="lbl-txt-align">'+$('#location_id :selected').text();+'</td>';
-					tr += '<td><a title="Delete" href="javascript:deleteItemRow('+ index_no +');"><img src="/images/delete.png"> </a> </td>';
+					tr += '<td><a title="Delete" href="javascript:deleteItemRow('+ index_no +');">'+delImg+' </a> </td>';
 					tr += '</tr>';
 					$('#assembleItemTable > tbody:last-child').append(tr);
 					$(this).dialog("close");
@@ -348,19 +381,19 @@ function projChanged(projDropdown, userid, needBlankOption){
 		url: userUrl,
 		type: 'get',
 		data: {project_id: id, user_id: userid, format:fmt},
-		success: function(data){ updateUserDD(data, userDropdown, userid, needBlankOption, false,"All Users"); },
+		success: function(data){ updateUserDD(data, userDropdown, userid, needBlankOption, false,"All Users", "0"); },
 		beforeSend: function(){ $this.addClass('ajax-loading'); },
 		complete: function(){ $this.removeClass('ajax-loading'); }
 	});
 }
-function updateUserDD(itemStr, dropdown, userid, needBlankOption, skipFirst, blankText)
+function updateUserDD(itemStr, dropdown, userid, needBlankOption, skipFirst, blankText, blankval="")
 {
 	var items = itemStr.split('\n');
 	var i, index, val, text, start;
 	if(dropdown != null && dropdown.options != null){
 		dropdown.options.length = 0;
 		if(needBlankOption){
-			dropdown.options[0] = new Option(blankText, "", false, false)
+			dropdown.options[0] = new Option(blankText, blankval, false, false)
 		}
 		for(i=0; i < items.length-1; i++){
 			index = items[i].indexOf(',');
@@ -430,7 +463,7 @@ function grpChanged(grpDropdown, userid, needBlankOption){
 		url: grpUrl,
 		type: 'get',
 		data: {user_id: userid, format:fmt,group_id:id},
-		success: function(data){ updateUserDD(data, userDropdown, userid, needBlankOption, false,"All Users"); },
+		success: function(data){ updateUserDD(data, userDropdown, userid, needBlankOption, false,"All Users", "0"); },
 		beforeSend: function(){ $this.addClass('ajax-loading'); },
 		complete: function(){ $this.removeClass('ajax-loading'); }
 	});
@@ -1105,7 +1138,7 @@ function renderData(resData, options={}){
 
 			$.each((el || {}), function(key, value){
 				if(key == 'icon'){
-					content += "<td class='td'><a class='icon icon-report' href='"+value+ "'>"+ details +"</a></td>";
+					content += "<td class='td'><a class='icon' href='"+value+ "'>"+ details +"</a></td>";
 				}
 				else{
 					content += "<td class='td'>" +value+ "</td>";

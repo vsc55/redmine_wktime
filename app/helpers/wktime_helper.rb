@@ -430,7 +430,7 @@ def getColumnValues(matrix, totals, unitLabel,rowNumberRequired, j=0, includeCom
 						issueWritten = true
 						j += 1
 					end
-					col_values[hoursIndex+i] =  (entry.hours.blank? ? "" : ("%.2f" % entry.hours.to_s))
+					col_values[hoursIndex+i] =  (entry.hours.blank? ? "" : format_hours(entry.hours))
 					totals[i] += entry.hours unless entry.hours.blank?
 				end
 			end
@@ -667,7 +667,7 @@ end
 		elsif params[:controller] == "wkcrmenumeration" || params[:controller] == "wktax" || params[:controller] == "wkexchangerate" || params[:controller] == "wklocation" || params[:controller] == "wkgrouppermission" || params[:controller] == "wknotification"
 			tabs = [
 				{:name => 'wkcrmenumeration', :partial => 'wktime/tab_content', :label => :label_enumerations},
-				{:name => 'wklocation', :partial => 'wktime/tab_content', :label => :label_location},
+				{:name => 'wklocation', :partial => 'wktime/tab_content', :label => :field_location},
 				{:name => 'wktax', :partial => 'wktime/tab_content', :label => :label_tax},
 				{:name => 'wkexchangerate', :partial => 'wktime/tab_content', :label => :label_rate},
 				{:name => 'wkgrouppermission', :partial => 'wktime/tab_content', :label => :label_permissions},

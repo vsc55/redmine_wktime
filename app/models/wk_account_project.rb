@@ -15,8 +15,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class WkAccountProject < ActiveRecord::Base
-  unloadable
+class WkAccountProject < ApplicationRecord
+
+
+  include Redmine::SafeAttributes
+
+  safe_attributes(
+    "parent_id",
+    "parent_type",
+    "project_id",
+    "itemized_bill",
+    "billing_type"
+  )
+
   belongs_to :project
   #belongs_to :account, :class_name => 'WkAccount'
   belongs_to :parent, :polymorphic => true
